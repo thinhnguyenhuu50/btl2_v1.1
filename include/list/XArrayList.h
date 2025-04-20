@@ -342,8 +342,17 @@ string XArrayList<T>::toString(string (*item2str)(T &)) {
             ss << ", ";
         if (item2str)
             ss << item2str(data[i]);
-        else
-            ss << data[i];
+        else {
+            // Handle std::pair specifically if T is a pair type
+            if constexpr (std::is_same_v<T, std::pair<char, int>> || 
+                         std::is_same_v<T, std::pair<int, int>> ||
+                         std::is_same_v<T, std::pair<double, int>> ||
+                         std::is_same_v<T, std::pair<char, char>> ||
+                         std::is_same_v<T, std::pair<int, char>>)
+                ss << "(" << data[i].first << "," << data[i].second << ")";
+            else
+                ss << data[i]; // For other types that support operator<<
+        }
     }
     ss << "]";
     return ss.str();

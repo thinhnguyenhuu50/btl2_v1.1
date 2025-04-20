@@ -106,6 +106,23 @@ void tc_huffman1005() {
     }
 }
 
+void tc_huffman1006() {
+    XArrayList<pair<char, int>> symbolFreqs;
+    symbolFreqs.add(make_pair('A', 5));
+    symbolFreqs.add(make_pair('B', 9));
+    symbolFreqs.add(make_pair('C', 12));
+    symbolFreqs.add(make_pair('D', 13));
+    int n = symbolFreqs.size();
+    HTree tree;
+    tree.build(symbolFreqs);
+    xMap<char, string> codeTable(&charHashFunc);
+    tree.generateCodes(codeTable);
+    for (int i = 0; i < n; ++i) {
+        char ch = symbolFreqs.get(i).first;
+        string code = codeTable.get(ch);
+        cout << "Code for " << ch << ": " << code << endl;
+    }
+}
 void tc_compressor1001() {    
     InventoryManager manager;
     List1D<InventoryAttribute> attrs;
