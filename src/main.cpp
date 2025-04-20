@@ -34,7 +34,7 @@ void (*func_ptr[17])() = {
 
 int main(int argc, char **argv) {
 
-    heapDemo1();
+    heapDemo3();
 
     return 0;
 }
