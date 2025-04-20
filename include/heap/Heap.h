@@ -25,8 +25,8 @@ public:
     class Iterator; // forward declaration
 
 protected:
-    T *elements;                            // a dynamic array to contain user's data
     int capacity;                           // size of the dynamic array
+    T *elements;                            // a dynamic array to contain user's data
     int count;                              // current count of elements stored in this heap
     int (*comparator)(T &lhs, T &rhs);      // see above
     void (*deleteUserData)(Heap<T> *pHeap); // see above
@@ -162,10 +162,12 @@ template <class T>
 Heap<T>::Heap(
     int (*comparator)(T &, T &),
     void (*deleteUserData)(Heap<T> *))
-    : capacity(10), count(0), elements(new T[capacity]), comparator(comparator), deleteUserData(deleteUserData) {}
+    : capacity(10), count(0), comparator(comparator), deleteUserData(deleteUserData) {
+    elements = new T[capacity];
+}
 
 template <class T>
-Heap<T>::Heap(const Heap<T> &heap) {
+Heap<T>::Heap(const Heap<T> &heap) : elements(nullptr) {
     copyFrom(heap);
 }
 
@@ -316,11 +318,16 @@ void Heap<T>::ensureCapacity(int minCapacity) {
     if (minCapacity >= capacity) {
         // re-allocate
         int old_capacity = capacity;
-        capacity = old_capacity + (old_capacity >> 2);
+        capacity = capacity * 1.5;
+        if (capacity < minCapacity)
+            capacity = minCapacity;
         try {
             T *new_data = new T[capacity];
             // OLD: memcpy(new_data, elements, capacity*sizeof(T));
-            memcpy(new_data, elements, old_capacity * sizeof(T));
+            // memcpy(new_data, elements, old_capacity * sizeof(T));
+            for (int idx = 0; idx < count; ++idx) {
+                new_data[idx] = elements[idx];
+            }
             delete[] elements;
             elements = new_data;
         } catch (std::bad_alloc e) {
@@ -381,9 +388,10 @@ int Heap<T>::getItem(T item) {
 
 template <class T>
 void Heap<T>::removeInternalData() {
-    if (this->deleteUserData != 0)
+    if (deleteUserData)
         deleteUserData(this); // clear users's data if they want
-    delete[] elements;
+    if (elements)
+        delete[] elements;
     elements = nullptr;
 }
 

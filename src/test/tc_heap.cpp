@@ -64,10 +64,10 @@
      minHeap2.heapify(array, 8);
      cout << minHeap2.toString() << endl;
      
-    //  Heap<int> maxHeap(maxHeapComparator);
-    //  cout << "Max Heap: ";
-    //  maxHeap.heapify(array, 8);
-    //  cout << maxHeap.toString() << endl;
+     Heap<int> maxHeap(maxHeapComparator);
+     cout << "Max Heap: ";
+     maxHeap.heapify(array, 8);
+     cout << maxHeap.toString() << endl;
  }
  
  void heapDemo2(){

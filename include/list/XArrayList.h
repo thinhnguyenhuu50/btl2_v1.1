@@ -165,8 +165,9 @@ XArrayList<T>::XArrayList(
     void (*deleteUserData)(XArrayList<T> *),
     bool (*itemEqual)(T &, T &),
     int capacity)
-    : capacity(capacity), itemEqual(itemEqual), deleteUserData(deleteUserData), count(0), data(new T[capacity]) {
+    : capacity(capacity), itemEqual(itemEqual), deleteUserData(deleteUserData), count(0) {
     // TODO
+    data = new T[capacity];
 }
 
 template <class T>
