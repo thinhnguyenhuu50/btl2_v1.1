@@ -1,5 +1,5 @@
 // #include "test/tc_compressor.h"
-// #include "test/tc_heap.h"
+#include "test/tc_heap.h"
 #include "test/tc_xmap.h"
 #include <iomanip>
 #include <iostream>
@@ -9,16 +9,16 @@
 using namespace std;
 
 void (*func_ptr[17])() = {
-    hashDemo1,
-    hashDemo2,
-    hashDemo3,
-    hashDemo4,
-    hashDemo5,
-    hashDemo6,
-    hashDemo7,
-    // heapDemo1,
-    // heapDemo2,
-    // heapDemo3,
+    // hashDemo1,
+    // hashDemo2,
+    // hashDemo3,
+    // hashDemo4,
+    // hashDemo5,
+    // hashDemo6,
+    // hashDemo7,
+    heapDemo1,
+    heapDemo2,
+    heapDemo3,
     // tc_huffman1001,
     // tc_huffman1002,
     // tc_huffman1003,
@@ -34,7 +34,7 @@ void (*func_ptr[17])() = {
 
 int main(int argc, char **argv) {
 
-    hashDemo7();
+    heapDemo1();
 
     return 0;
 }
