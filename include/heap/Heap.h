@@ -53,6 +53,8 @@ public:
     string toString(string (*item2str)(T &) = 0);
     // Inherit from IHeap: END
 
+    void heapsort(XArrayList<T> &arrayList);
+
     void println(string (*item2str)(T &) = 0) {
         cout << toString(item2str) << endl;
     }
@@ -102,8 +104,6 @@ private:
 
     void removeInternalData();
     void copyFrom(const Heap<T> &heap);
-
-    void heapsort(XArrayList<T> &arrayList);
 
     //////////////////////////////////////////////////////////////////////
     ////////////////////////  INNER CLASSES DEFNITION ////////////////////
