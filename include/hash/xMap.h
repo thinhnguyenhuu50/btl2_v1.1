@@ -174,7 +174,6 @@ public:
         K key;
         V value;
         friend class xMap<K, V>;
-
     public:
         Entry(K key, V value) {
             this->key = key;
@@ -268,8 +267,22 @@ V xMap<K, V>::put(K key, V value) {
 
     // Key doesn't exist, add a new entry
     Entry *newEntry = new Entry(key, value);
-    list.add(newEntry);
+    list.add(0, newEntry);
     ++count;
+    if (count > (int)capacity * loadFactor) {
+        if (list.size() > 1) {
+            // Get the last entry
+            Entry* lastEntry = list.get(list.size() - 1);
+            
+            // Remove both entries from the list
+            list.removeAt(list.size() - 1);
+            list.removeAt(0);
+            
+            // Add them back in swapped positions
+            list.add(0, lastEntry);
+            list.add(newEntry);
+        }
+    }
     ensureLoadFactor(count);
     return retValue;
 }
@@ -307,7 +320,7 @@ V xMap<K, V>::remove(K key, void (*deleteKeyInMap)(K)) {
                 deleteKeyInMap(entry->key);
             }
             list.removeItem(entry, xMap<K, V>::deleteEntry);
-            count--;
+            --count;
             return retValue;
         }
     }
@@ -333,7 +346,7 @@ bool xMap<K, V>::remove(K key, V value, void (*deleteKeyInMap)(K), void (*delete
                 deleteValueInMap(entry->value);
             }
             list.removeItem(entry, xMap<K, V>::deleteEntry);
-            count--;
+            --count;
             return true;
         }
     }
@@ -474,12 +487,12 @@ template <class K, class V>
 void xMap<K, V>::moveEntries(
     DLinkedList<Entry *> *oldTable, int oldCapacity,
     DLinkedList<Entry *> *newTable, int newCapacity) {
-    for (int old_index = 0; old_index < oldCapacity; old_index++) {
+    for (int old_index = 0; old_index < oldCapacity; ++old_index) {
         DLinkedList<Entry *> &oldList = oldTable[old_index];
         for (auto oldEntry : oldList) {
             int new_index = this->hashCode(oldEntry->key, newCapacity);
             DLinkedList<Entry *> &newList = newTable[new_index];
-            newList.add(oldEntry);
+            newList.add(0, oldEntry);
         }
     }
 }
@@ -492,12 +505,8 @@ void xMap<K, V>::moveEntries(
 template <class K, class V>
 void xMap<K, V>::ensureLoadFactor(int current_size) {
     int maxSize = (int)(loadFactor * capacity);
-
-    // cout << "ensureLoadFactor: count = " << count << "; maxSize = " << maxSize << endl;
     if (current_size > maxSize) {
-        int oldCapacity = capacity;
-        // int newCapacity = oldCapacity + (oldCapacity >> 1);
-        int newCapacity = 1.5 * oldCapacity;
+        int newCapacity = 1.5 * capacity;
         rehash(newCapacity);
     }
 }

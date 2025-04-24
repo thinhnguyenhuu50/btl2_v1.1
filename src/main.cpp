@@ -2,6 +2,7 @@
 #include "test/tc_heap.h"
 #include "test/tc_xmap.h"
 #include "../test/HeapTest.h"
+#include "../test/xMapTest.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -35,7 +36,7 @@ void (*func_ptr[17])() = {
 
 int main(int argc, char **argv) {
 
-    tc_compressor1002();
+    testCustomObjects();
     // for (int i = 0; i < 2; ++i) {
     //     cout << "Running test case tc_compressor100" << i + 1<< "..." << endl;
     //     run(i);
