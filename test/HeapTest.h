@@ -11,15 +11,6 @@ string intToString(int &value) {
     return std::to_string(value);
 }
 
-// Custom Point comparison function
-int pointComparator(Point *&lhs, Point *&rhs) {
-    if (*lhs < *rhs)
-        return -1;
-    if (*lhs > *rhs)
-        return 1;
-    return 0;
-}
-
 void testIntHeap() {
     cout << "\n=== Testing Integer Heap (Max Heap) ===\n";
 
@@ -95,50 +86,44 @@ void testIntHeap() {
     cout << "Min heap with custom comparator check passed\n";
 }
 
-// void testPointerHeap() {
-//     cout << "\n=== Testing Pointer Heap ===\n";
+void testPointerHeap() {
+    cout << "\n=== Testing Pointer Heap ===\n";
 
-//     // Create a heap of Point pointers
-//     Heap<Point*> pointHeap(pointComparator, &Heap<Point*>::free);
+    // Create a heap of Point pointers
+    Heap<Point*> pointHeap(maxHeapComparator, &Heap<Point*>::free);
 
-//     // Test push with pointers
-//     pointHeap.push(new Point(1, 2));
-//     pointHeap.push(new Point(5, 6));
-//     pointHeap.push(new Point(3, 4));
-//     pointHeap.push(new Point(7, 8));
+    // Test push with pointers
+    pointHeap.push(new Point(1, 2));
+    pointHeap.push(new Point(5, 6));
+    pointHeap.push(new Point(3, 4));
+    pointHeap.push(new Point(7, 8));
 
-//     assert(pointHeap.size() == 4);
-//     cout << "Push with pointers check passed\n";
+    assert(pointHeap.size() == 4);
+    cout << "Push with pointers check passed\n";
 
-//     // Test peek with pointers
-//     Point* top = pointHeap.peek();
-//     assert(top->x == 7 && top->y == 8);
-//     cout << "Peek with pointers check passed\n";
+    // Test peek with pointers
+    Point* top = pointHeap.peek();
+    assert(top->getX() == 7 && top->getY() == 8);
+    cout << "Peek with pointers check passed\n";
 
-//     // Test toString
-//     cout << "Point heap contents: " << pointHeap.toString() << endl;
+    // Test toString
+    cout << "Point heap contents: " << pointHeap.toString(point2str) << endl;
 
-//     // Test contains with pointers
-//     Point searchPoint(3, 4);
-//     bool found = false;
-//     for (Heap<Point*>::Iterator it = pointHeap.begin(); it != pointHeap.end(); ++it) {
-//         if (**it == searchPoint) {
-//             found = true;
-//             break;
-//         }
-//     }
-//     assert(found);
-//     cout << "Contains with pointers check passed\n";
+    // Test contains with pointers
+    Point *searchPoint = new Point(3, 4);
+    assert(pointHeap.contains(searchPoint));
+    delete searchPoint; // Clean up the search point
+    cout << "Contains with pointers check passed\n";
 
-//     // Test pop with pointers
-//     Point* popped = pointHeap.pop();
-//     assert(popped->x == 7 && popped->y == 8);
-//     delete popped; // Manually delete since we removed it from heap
-//     assert(pointHeap.size() == 3);
-//     cout << "Pop with pointers check passed\n";
+    // Test pop with pointers
+    Point* popped = pointHeap.pop();
+    assert(popped->getX() == 7 && popped->getY() == 8);
+    delete popped; // Manually delete since we removed it from heap
+    assert(pointHeap.size() == 3);
+    cout << "Pop with pointers check passed\n";
 
-//     // Let the heap destructor clean up the remaining Points
-// }
+    // Let the heap destructor clean up the remaining Points
+}
 
 void testHeapsort() {
     cout << "\n=== Testing Heapsort ===\n";
