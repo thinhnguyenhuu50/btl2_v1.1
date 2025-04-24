@@ -174,6 +174,7 @@ public:
         K key;
         V value;
         friend class xMap<K, V>;
+
     public:
         Entry(K key, V value) {
             this->key = key;
@@ -191,10 +192,10 @@ template <class K, class V>
 xMap<K, V>::xMap(
     int (*hashCode)(K &, int),
     float loadFactor,
-    bool (*valueEqual)(V &lhs, V &rhs),
+    bool (*valueEqual)(V &, V &),
     void (*deleteValues)(xMap<K, V> *),
-    bool (*keyEqual)(K &lhs, K &rhs),
-    void (*deleteKeys)(xMap<K, V> *pMap))
+    bool (*keyEqual)(K &, K &),
+    void (*deleteKeys)(xMap<K, V> *))
     : hashCode(hashCode),
       loadFactor(loadFactor),
       valueEqual(valueEqual),
@@ -210,28 +211,14 @@ xMap<K, V>::xMap(
 template <class K, class V>
 xMap<K, V>::xMap(const xMap<K, V> &map) {
     // YOUR CODE IS HERE
-    this->capacity = map.capacity;
-    this->count = map.count;
-    this->table = new DLinkedList<Entry *>[capacity];
-    this->hashCode = map.hashCode;
-    this->loadFactor = map.loadFactor;
-    this->valueEqual = map.valueEqual;
-    this->keyEqual = map.keyEqual;
-    this->deleteKeys = map.deleteKeys;
-    this->deleteValues = map.deleteValues;
-    // copy entries
-    for (int idx = 0; idx < map.capacity; idx++) {
-        DLinkedList<Entry *> &list = map.table[idx];
-        for (auto pEntry : list) {
-            this->put(pEntry->key, pEntry->value);
-        }
-    }
+    copyMapFrom(map);
 }
 
 template <class K, class V>
 xMap<K, V> &xMap<K, V>::operator=(const xMap<K, V> &map) {
     // YOUR CODE IS HERE
     if (this != &map) {
+        removeInternalData();
         copyMapFrom(map);
     }
     return *this;
@@ -272,12 +259,12 @@ V xMap<K, V>::put(K key, V value) {
     if (count > (int)capacity * loadFactor) {
         if (list.size() > 1) {
             // Get the last entry
-            Entry* lastEntry = list.get(list.size() - 1);
-            
+            Entry *lastEntry = list.get(list.size() - 1);
+
             // Remove both entries from the list
             list.removeAt(list.size() - 1);
             list.removeAt(0);
-            
+
             // Add them back in swapped positions
             list.add(0, lastEntry);
             list.add(newEntry);
@@ -569,31 +556,26 @@ void xMap<K, V>::removeInternalData() {
 /*
  * copyMapFrom(const xMap<K,V>& map):
  *  Purpose:
- *      1. Remove all the entries of the current hash-table
- *      2. Copy (Shallow-copy only) all the entries in the input map
+ *      1. Copy (Deep-copy only) all the entries in the input map
  *          to the current table
  */
 
 template <class K, class V>
 void xMap<K, V>::copyMapFrom(const xMap<K, V> &map) {
-    removeInternalData();
-
     this->capacity = map.capacity;
-    this->count = 0;
+    this->count = map.count;
     this->table = new DLinkedList<Entry *>[capacity];
-
-    this->hashCode = hashCode;
-    this->loadFactor = loadFactor;
-
-    this->valueEqual = valueEqual;
-    this->keyEqual = keyEqual;
-    // SHOULD NOT COPY: deleteKeys, deleteValues => delete ONLY TIME in map if needed
-
+    this->hashCode = map.hashCode;
+    this->loadFactor = map.loadFactor;
+    this->valueEqual = map.valueEqual;
+    this->keyEqual = map.keyEqual;
+    this->deleteKeys = map.deleteKeys;
+    this->deleteValues = map.deleteValues;
     // copy entries
     for (int idx = 0; idx < map.capacity; idx++) {
         DLinkedList<Entry *> &list = map.table[idx];
         for (auto pEntry : list) {
-            this->put(pEntry->key, pEntry->value);
+            this->table[idx].add(new Entry(pEntry->key, pEntry->value));
         }
     }
 }

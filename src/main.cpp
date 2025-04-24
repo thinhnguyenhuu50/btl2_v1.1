@@ -36,7 +36,7 @@ void (*func_ptr[17])() = {
 
 int main(int argc, char **argv) {
 
-    testCustomObjects();
+    testEdgeCases();
     // for (int i = 0; i < 2; ++i) {
     //     cout << "Running test case tc_compressor100" << i + 1<< "..." << endl;
     //     run(i);

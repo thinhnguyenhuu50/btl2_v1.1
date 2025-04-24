@@ -109,6 +109,8 @@ void testStringIntMap() {
     bool removed = map.remove("banana", 7);
     cout << "Removed? " << (removed ? "Yes" : "No") << endl;
     cout << "Size: " << map.size() << endl;
+    cout << "Map contents:\n"
+         << map.toString(stringToString, intToString);
 }
 
 // Test with custom objects
@@ -147,6 +149,10 @@ void testCopyOperations() {
     original.put(1, "One");
     original.put(2, "Two");
     original.put(3, "Three");
+    original.put(11, "Eleven");
+    original.put(21, "Twenty-One");
+    original.put(14, "Fourteen");
+    original.put(24, "Twenty-Four");
 
     cout << "Original map:\n"
          << original.toString(intToString, stringToString);
@@ -221,18 +227,4 @@ void testEdgeCases() {
         cout << "Bucket " << i << ": " << clashes.get(i) << " entries\n";
     }
 }
-
-// Main function
-// int main() {
-//     cout << "===== xMap Test Program =====\n";
-
-//     testIntegerMap();
-//     testStringIntMap();
-//     testCustomObjects();
-//     testCopyOperations();
-//     testEdgeCases();
-
-//     cout << "\nAll tests completed.\n";
-//     return 0;
-// }
 #endif // XMAPTEST_CPP
