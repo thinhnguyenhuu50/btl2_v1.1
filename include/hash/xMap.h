@@ -254,22 +254,8 @@ V xMap<K, V>::put(K key, V value) {
 
     // Key doesn't exist, add a new entry
     Entry *newEntry = new Entry(key, value);
-    list.add(0, newEntry);
+    list.add(newEntry);
     ++count;
-    if (count > (int)capacity * loadFactor) {
-        if (list.size() > 1) {
-            // Get the last entry
-            Entry *lastEntry = list.get(list.size() - 1);
-
-            // Remove both entries from the list
-            list.removeAt(list.size() - 1);
-            list.removeAt(0);
-
-            // Add them back in swapped positions
-            list.add(0, lastEntry);
-            list.add(newEntry);
-        }
-    }
     ensureLoadFactor(count);
     return retValue;
 }
@@ -473,16 +459,20 @@ string xMap<K, V>::toString(string (*key2str)(K &), string (*value2str)(V &)) {
 template <class K, class V>
 void xMap<K, V>::moveEntries(
     DLinkedList<Entry *> *oldTable, int oldCapacity,
-    DLinkedList<Entry *> *newTable, int newCapacity) {
-    for (int old_index = 0; old_index < oldCapacity; ++old_index) {
+    DLinkedList<Entry *> *newTable, int newCapacity)
+{
+    for (int old_index = 0; old_index < oldCapacity; old_index++)
+    {
         DLinkedList<Entry *> &oldList = oldTable[old_index];
-        for (auto oldEntry : oldList) {
+        for (auto oldEntry : oldList)
+        {
             int new_index = this->hashCode(oldEntry->key, newCapacity);
             DLinkedList<Entry *> &newList = newTable[new_index];
-            newList.add(0, oldEntry);
+            newList.add(oldEntry);
         }
     }
 }
+
 
 /*
  * ensureLoadFactor:
