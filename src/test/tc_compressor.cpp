@@ -65,7 +65,6 @@ void tc_huffman1003() {
     
     string codeZ = codeTable.get('Z');
     cout << "Code for Z: " << codeZ << endl;
-    
     string decoded = tree.decode(codeZ);
     cout << "Decoded string: " << decoded << endl;
 }

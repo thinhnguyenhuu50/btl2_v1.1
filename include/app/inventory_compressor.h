@@ -18,10 +18,11 @@ public:
     struct HuffmanNode {
         char symbol = '\0';
         int freq;
+        int order;
         XArrayList<HuffmanNode *> children;
 
-        HuffmanNode(char s, int f) : symbol(s), freq(f) {}
-        HuffmanNode(int f, const XArrayList<HuffmanNode *> &childs) : freq(f), children(childs) {}
+        HuffmanNode(char s, int f, int o) : symbol(s), freq(f), order(o) {}
+        HuffmanNode(int f, const XArrayList<HuffmanNode *> &childs, int o) : freq(f), children(childs), order(o) {}
     };
 
     HuffmanTree();
@@ -51,8 +52,13 @@ private:
             return -1;
         else if (a->freq > b->freq)
             return +1;
-        else
+        else if (a->order < b->order) {
+            return -1;
+        } else if (a->order < b->order) {
+            return +1;
+        } else {
             return 0;
+        }
     }
 };
 
@@ -92,15 +98,10 @@ HuffmanTree<treeOrder>::~HuffmanTree() {
 
 template <int treeOrder>
 void HuffmanTree<treeOrder>::build(XArrayList<pair<char, int>> &symbolsFreqs) {
-    // TOD
+    // TODO
+    int orderCounter = 0;
     // Create a heap from the symbols and frequencies
     Heap<HuffmanNode *> minHeap(minHeapComparator);
-
-    // Add all symbols and their frequencies to the heap
-    for (int i = 0; i < symbolsFreqs.size(); i++) {
-        HuffmanNode *node = new HuffmanNode(symbolsFreqs.get(i).first, symbolsFreqs.get(i).second);
-        minHeap.push(node);
-    }
 
     // Check if we need to add dummy characters
     int leafCount = symbolsFreqs.size();
@@ -117,7 +118,13 @@ void HuffmanTree<treeOrder>::build(XArrayList<pair<char, int>> &symbolsFreqs) {
     }
 
     for (int i = 0; i < dummyCount; ++i) {
-        HuffmanNode *node = new HuffmanNode('\0', 0);
+        HuffmanNode *node = new HuffmanNode('\0', 0, orderCounter++);
+        minHeap.push(node);
+    }
+
+    // Add all symbols and their frequencies to the heap
+    for (int i = 0; i < symbolsFreqs.size(); i++) {
+        HuffmanNode *node = new HuffmanNode(symbolsFreqs.get(i).first, symbolsFreqs.get(i).second, orderCounter++);
         minHeap.push(node);
     }
 
@@ -134,7 +141,7 @@ void HuffmanTree<treeOrder>::build(XArrayList<pair<char, int>> &symbolsFreqs) {
         }
 
         // Create a new internal node with the combined frequency
-        HuffmanNode *internal = new HuffmanNode(totalFreq, children);
+        HuffmanNode *internal = new HuffmanNode(totalFreq, children, orderCounter++);
 
         // Push the internal node back to the heap
         minHeap.push(internal);
@@ -247,12 +254,10 @@ void InventoryCompressor<treeOrder>::buildHuffman() {
     for (int i = 0; i < products.rows(); ++i) {
         // Convert product to string representation
         std::string productStr = productToString(products.getRow(i), names.get(i));
-        
+
         // Count frequency of each character
         for (char ch : productStr) {
             if (freqTable.containsKey(ch)) {
-                // int currentFreq = freqTable.get(ch);
-                // freqTable.put(ch, currentFreq + 1);
                 ++freqTable.get(ch);
             } else {
                 freqTable.put(ch, 1);
@@ -291,10 +296,10 @@ std::string InventoryCompressor<treeOrder>::productToString(const List1D<Invento
     for (int i = 0; i < attributes.size(); i++) {
         // Get the current attribute
         InventoryAttribute attr = attributes.get(i);
-        
+
         // Add the attribute in the format (name:value)
         ss << "(" << attr.name << ":" << attr.value << ")";
-        
+
         // Add comma and space if not the last attribute
         if (i < attributes.size() - 1) {
             ss << ", ";
@@ -309,7 +314,7 @@ std::string InventoryCompressor<treeOrder>::encodeHuffman(const List1D<Inventory
     // TODO
     // Convert the product to a string representation
     std::string productStr = productToString(attributes, name);
-        
+    
     // Encode the string using the Huffman table
     std::stringstream encodedStream;
     for (char ch : productStr) {
@@ -321,7 +326,7 @@ std::string InventoryCompressor<treeOrder>::encodeHuffman(const List1D<Inventory
             throw std::runtime_error("Character not found in Huffman table: " + std::string(1, ch));
         }
     }
-        
+
     return encodedStream.str();
 }
 
@@ -356,7 +361,7 @@ std::string InventoryCompressor<treeOrder>::decodeHuffman(const std::string &huf
 
         // Extract the attribute string
         std::string attrStr = attributesStr.substr(pos + 1, endPos - pos - 1);
-        
+
         // Find the colon in the attribute
         size_t attrColonPos = attrStr.find(':');
         if (attrColonPos == std::string::npos) {
@@ -366,10 +371,10 @@ std::string InventoryCompressor<treeOrder>::decodeHuffman(const std::string &huf
         // Parse name and value
         std::string attrName = attrStr.substr(0, attrColonPos);
         std::string attrValue = attrStr.substr(attrColonPos + 1);
-        
+
         // Add to attributes list
         attributesOutput.add(InventoryAttribute(attrName, attrValue));
-        
+
         // Move past this attribute
         pos = endPos + 1;
     }

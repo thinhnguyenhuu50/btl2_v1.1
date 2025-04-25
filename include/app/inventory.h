@@ -376,29 +376,29 @@ List2D<T> &List2D<T>::operator=(const List2D<T> &other) {
     return *this;
 }
 // -------------------- InventoryManager Method Definitions --------------------
-InventoryManager::InventoryManager()
+inline InventoryManager::InventoryManager()
     : attributesMatrix(List2D<InventoryAttribute>()), productNames(List1D<string>()), quantities(List1D<int>()) {
     // TODO
 }
 
-InventoryManager::InventoryManager(const List2D<InventoryAttribute> &matrix,
+inline InventoryManager::InventoryManager(const List2D<InventoryAttribute> &matrix,
                                    const List1D<string> &names,
                                    const List1D<int> &quantities)
     : attributesMatrix(matrix), productNames(names), quantities(quantities) {
     // TODO
 }
 
-InventoryManager::InventoryManager(const InventoryManager &other)
+inline InventoryManager::InventoryManager(const InventoryManager &other)
     : attributesMatrix(other.attributesMatrix), productNames(other.productNames), quantities(other.quantities) {
     // TODO
 }
 
-int InventoryManager::size() const {
+inline int InventoryManager::size() const {
     // TODO
     return attributesMatrix.rows();
 }
 
-List1D<InventoryAttribute> InventoryManager::getProductAttributes(int index) const {
+inline List1D<InventoryAttribute> InventoryManager::getProductAttributes(int index) const {
     // TODO
     if (index < 0 || index >= attributesMatrix.rows()) {
         throw out_of_range("Index is invalid!");
@@ -406,7 +406,7 @@ List1D<InventoryAttribute> InventoryManager::getProductAttributes(int index) con
     return attributesMatrix.getRow(index);
 }
 
-string InventoryManager::getProductName(int index) const {
+inline string InventoryManager::getProductName(int index) const {
     // TODO
     if (index < 0 || index >= productNames.size()) {
         throw out_of_range("Index is invalid!");
@@ -414,7 +414,7 @@ string InventoryManager::getProductName(int index) const {
     return productNames.get(index);
 }
 
-int InventoryManager::getProductQuantity(int index) const {
+inline int InventoryManager::getProductQuantity(int index) const {
     // TODO
     if (index < 0 || index >= quantities.size()) {
         throw out_of_range("Index is invalid!");
@@ -422,7 +422,7 @@ int InventoryManager::getProductQuantity(int index) const {
     return quantities.get(index);
 }
 
-void InventoryManager::updateQuantity(int index, int newQuantity) {
+inline void InventoryManager::updateQuantity(int index, int newQuantity) {
     // TODO
     if (index < 0 || index >= quantities.size()) {
         throw out_of_range("Index is invalid!");
@@ -430,7 +430,7 @@ void InventoryManager::updateQuantity(int index, int newQuantity) {
     quantities.set(index, newQuantity);
 }
 
-void InventoryManager::addProduct(const List1D<InventoryAttribute> &attributes, const string &name, int quantity) {
+inline void InventoryManager::addProduct(const List1D<InventoryAttribute> &attributes, const string &name, int quantity) {
     // TODO
     // Create a new row in the attributesMatrix
     XArrayList<InventoryAttribute> *rowToAdd = new XArrayList<InventoryAttribute>();
@@ -443,7 +443,7 @@ void InventoryManager::addProduct(const List1D<InventoryAttribute> &attributes, 
     quantities.add(quantity);
 }
 
-void InventoryManager::removeProduct(int index) {
+inline void InventoryManager::removeProduct(int index) {
     // TODO
     if (index < 0 || index >= size()) {
         throw out_of_range("Index is invalid!");
@@ -454,7 +454,7 @@ void InventoryManager::removeProduct(int index) {
     quantities.removeAt(index);
 }
 
-List1D<string> InventoryManager::query(string attributeName, const double &minValue,
+inline List1D<string> InventoryManager::query(string attributeName, const double &minValue,
                                        const double &maxValue, int minQuantity, bool ascending) const {
     // TODO
     List1D<string> result;
@@ -489,7 +489,7 @@ List1D<string> InventoryManager::query(string attributeName, const double &minVa
     return result;
 }
 
-void InventoryManager::removeDuplicates() {
+inline void InventoryManager::removeDuplicates() {
     // TODO
     for (int i = 0; i < this->size(); i++) {
         for (int j = i + 1; j < this->size(); j++) {
@@ -531,7 +531,7 @@ void InventoryManager::removeDuplicates() {
     }
 }
 
-InventoryManager InventoryManager::merge(const InventoryManager &inv1,
+inline InventoryManager InventoryManager::merge(const InventoryManager &inv1,
                                          const InventoryManager &inv2) {
     // TODO
     InventoryManager newInventory;
@@ -555,7 +555,7 @@ InventoryManager InventoryManager::merge(const InventoryManager &inv1,
     return newInventory;
 }
 
-void InventoryManager::split(InventoryManager &section1,
+inline void InventoryManager::split(InventoryManager &section1,
                              InventoryManager &section2,
                              double ratio) const {
     // TODO
@@ -590,22 +590,22 @@ void InventoryManager::split(InventoryManager &section1,
     }
 }
 
-List2D<InventoryAttribute> InventoryManager::getAttributesMatrix() const {
+inline List2D<InventoryAttribute> InventoryManager::getAttributesMatrix() const {
     // TODO
     return attributesMatrix;
 }
 
-List1D<string> InventoryManager::getProductNames() const {
+inline List1D<string> InventoryManager::getProductNames() const {
     // TODO
     return productNames;
 }
 
-List1D<int> InventoryManager::getQuantities() const {
+inline List1D<int> InventoryManager::getQuantities() const {
     // TODO
     return quantities;
 }
 
-string InventoryManager::toString() const {
+inline string InventoryManager::toString() const {
     // TODO
     stringstream ss;
 
@@ -617,13 +617,13 @@ string InventoryManager::toString() const {
     return ss.str();
 }
 
-void InventoryManager::clear() {
+inline void InventoryManager::clear() {
     attributesMatrix.clear();
     productNames.clear();
     quantities.clear();
 }
 
-InventoryManager &InventoryManager::operator=(const InventoryManager &other) {
+inline InventoryManager &InventoryManager::operator=(const InventoryManager &other) {
     if (this == &other) {
         return *this; // Self-assignment check
     }
