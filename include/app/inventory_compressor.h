@@ -16,7 +16,7 @@ template <int treeOrder>
 class HuffmanTree {
 public:
     struct HuffmanNode {
-        char symbol;
+        char symbol = '\0';
         int freq;
         XArrayList<HuffmanNode *> children;
 
@@ -94,7 +94,7 @@ template <int treeOrder>
 void HuffmanTree<treeOrder>::build(XArrayList<pair<char, int>> &symbolsFreqs) {
     // TOD
     // Create a heap from the symbols and frequencies
-    Heap<HuffmanNode *> minHeap(&minHeapComparator, &Heap<HuffmanNode *>::free);
+    Heap<HuffmanNode *> minHeap(minHeapComparator);
 
     // Add all symbols and their frequencies to the heap
     for (int i = 0; i < symbolsFreqs.size(); i++) {

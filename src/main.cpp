@@ -3,6 +3,7 @@
 #include "test/tc_xmap.h"
 #include "../test/HeapTest.h"
 #include "../test/xMapTest.h"
+#include "../test/test_inventory_compressor.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -12,7 +13,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
 
-    testPointerHeap();
+    testHuffmanTree();
 
     return 0;
 }
