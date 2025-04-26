@@ -18,11 +18,11 @@ public:
     struct HuffmanNode {
         char symbol = '\0';
         int freq;
-        int order;
+        int order = 0;
         XArrayList<HuffmanNode *> children;
 
-        HuffmanNode(char s, int f, int o) : symbol(s), freq(f), order(o) {}
-        HuffmanNode(int f, const XArrayList<HuffmanNode *> &childs, int o) : freq(f), children(childs), order(o) {}
+        HuffmanNode(char s, int f, int o = 0) : symbol(s), freq(f), order(o) {}
+        HuffmanNode(int f, const XArrayList<HuffmanNode *> &childs, int o = 0) : freq(f), children(childs), order(o) {}
     };
 
     HuffmanTree();
