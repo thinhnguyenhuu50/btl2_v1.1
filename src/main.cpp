@@ -38,13 +38,14 @@ void run(int func_idx)
 
 int main(int argc, char **argv) {
 
-    for (int i = 0; i < 7; ++i) {
-        cout << "========================" << endl;
-        cout << "Running test " << i << "..." << endl;
-        run(i);
-        cout << "Test " << i << " completed." << endl;
-        cout << "========================" << endl;
-    }
+    tc_compressor1001();
+    // for (int i = 0; i < 7; ++i) {
+    //     cout << "========================" << endl;
+    //     cout << "Running test " << i << "..." << endl;
+    //     run(i);
+    //     cout << "Test " << i << " completed." << endl;
+    //     cout << "========================" << endl;
+    // }
 
     return 0;
 }

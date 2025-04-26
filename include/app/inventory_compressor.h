@@ -298,7 +298,8 @@ std::string InventoryCompressor<treeOrder>::productToString(const List1D<Invento
         InventoryAttribute attr = attributes.get(i);
 
         // Add the attribute in the format (name:value)
-        ss << "(" << attr.name << ":" << attr.value << ")";
+        // ss << "(" << attr.name << ":" << attr.value << ")";
+        ss << "(" << attr << ")";
 
         // Add comma and space if not the last attribute
         if (i < attributes.size() - 1) {
