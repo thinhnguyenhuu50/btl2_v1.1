@@ -134,6 +134,14 @@ void tc_compressor1001() {
     
     string encoded = compressor.encodeHuffman(attrs, "Gadget");
     cout << "Encoded product: " << encoded << endl;
+    
+    List1D<InventoryAttribute> decodedAttrs;
+    string decodedName;
+    cout << compressor.decodeHuffman(encoded, decodedAttrs, decodedName) << endl;
+    cout << "Decoded product: " << decodedName << endl;
+    for (int i = 0; i < decodedAttrs.size(); ++i) {
+        cout << "Attribute " << i + 1 << ": " << decodedAttrs.get(i) << endl;
+    }
 }
 
 void tc_compressor1002() {    

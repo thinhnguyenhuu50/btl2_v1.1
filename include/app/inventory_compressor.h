@@ -298,8 +298,8 @@ std::string InventoryCompressor<treeOrder>::productToString(const List1D<Invento
         InventoryAttribute attr = attributes.get(i);
 
         // Add the attribute in the format (name:value)
-        // ss << "(" << attr.name << ":" << attr.value << ")";
-        ss << "(" << attr << ")";
+        ss << "(" << attr.name << ":" << to_string(attr.value) << ")";
+        // ss << "(" << attr << ")";
 
         // Add comma and space if not the last attribute
         if (i < attributes.size() - 1) {
@@ -336,16 +336,16 @@ std::string InventoryCompressor<treeOrder>::decodeHuffman(const std::string &huf
     // TODO
     // (a) Decode the Huffman code using the Huffman tree
     std::string decodedString = tree->decode(huffmanCode);
-
+    
     // (b) Parse the decoded string to extract product name and attributes
     attributesOutput.clear();
     nameOutput = "";
 
     // Find the position of the first colon which separates name from attributes
     size_t colonPos = decodedString.find(':');
-    if (colonPos == std::string::npos) {
-        throw std::runtime_error("Invalid format in decoded string: missing colon");
-    }
+    // if (colonPos == std::string::npos) {
+    //     throw std::runtime_error("Invalid format in decoded string: missing colon");
+    // }
 
     // Extract the name part
     nameOutput = decodedString.substr(0, colonPos);
@@ -373,8 +373,8 @@ std::string InventoryCompressor<treeOrder>::decodeHuffman(const std::string &huf
         std::string attrName = attrStr.substr(0, attrColonPos);
         std::string attrValue = attrStr.substr(attrColonPos + 1);
 
-        // Add to attributes list
-        attributesOutput.add(InventoryAttribute(attrName, attrValue));
+        // Add to attributes list - convert attrValue from string to double
+        attributesOutput.add(InventoryAttribute(attrName, std::stod(attrValue)));
 
         // Move past this attribute
         pos = endPos + 1;
