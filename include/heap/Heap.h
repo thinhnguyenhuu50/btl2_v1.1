@@ -421,7 +421,7 @@ void Heap<T>::heapsort(XArrayList<T> &arrayList) {
     // Add items from arrayList to heap
     for (int i = 0; i < arrayList.size(); i++) {
         push(arrayList.get(i));
-        cout << toString() << endl;
+        // cout << toString() << endl;
     }
 
     // Extract sorted elements back to arrayList
@@ -429,6 +429,7 @@ void Heap<T>::heapsort(XArrayList<T> &arrayList) {
     while (!empty()) {
         arrayList.add(pop());
         // cout << toString() << endl;
+        println();
     }
 }
 

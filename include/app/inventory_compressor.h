@@ -298,8 +298,8 @@ std::string InventoryCompressor<treeOrder>::productToString(const List1D<Invento
         InventoryAttribute attr = attributes.get(i);
 
         // Add the attribute in the format (name:value)
-        ss << "(" << attr.name << ":" << to_string(attr.value) << ")";
-        // ss << "(" << attr << ")";
+        // ss << "(" << attr.name << ":" << to_string(attr.value) << ")";
+        ss << "(" << attr << ")";
 
         // Add comma and space if not the last attribute
         if (i < attributes.size() - 1) {
@@ -338,7 +338,9 @@ std::string InventoryCompressor<treeOrder>::decodeHuffman(const std::string &huf
     std::string decodedString = tree->decode(huffmanCode);
     
     // (b) Parse the decoded string to extract product name and attributes
-    attributesOutput.clear();
+    while (attributesOutput.size() > 0) {
+        attributesOutput.removeAt(attributesOutput.size() - 1);
+    }
     nameOutput = "";
 
     // Find the position of the first colon which separates name from attributes

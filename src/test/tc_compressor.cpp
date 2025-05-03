@@ -132,6 +132,11 @@ void tc_compressor1001() {
     InvCompressor compressor(&manager);
     compressor.buildHuffman();
     
+    string productStr = compressor.productToString(attrs, "Gadget");
+    cout << "Product string: " << productStr << endl;
+
+    compressor.printHuffmanTable();
+
     string encoded = compressor.encodeHuffman(attrs, "Gadget");
     cout << "Encoded product: " << encoded << endl;
     
