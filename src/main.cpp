@@ -38,7 +38,7 @@ void run(int func_idx)
 
 int main(int argc, char **argv) {
 
-    tc_compressor1001();
+    tc_compressor1002();
     // for (int i = 0; i < 7; ++i) {
     //     cout << "========================" << endl;
     //     cout << "Running test " << i << "..." << endl;

@@ -162,7 +162,7 @@ void HuffmanTree<treeOrder>::generateCodes(xMap<char, std::string> &table) {
     auto f = [&table](auto &ref, HuffmanNode *node, const std::string &code) {
         if (!node)
             return;
-        if (node->children.size() == 0 && node->symbol != '\0') {
+        if (node->children.size() == 0) {
             table.put(node->symbol, code);
         } else {
             for (int i = 0; i < node->children.size(); ++i) {
@@ -190,14 +190,15 @@ std::string HuffmanTree<treeOrder>::decode(const std::string &huffmanCode) {
             index = digit - '0';
         } else if (digit >= 'a' && digit <= 'f') {
             index = digit - 'a' + 10;
-        } else {
-            throw std::runtime_error("Invalid character in Huffman code");
-        }
+        } 
+        // else {
+        //     throw std::runtime_error("Invalid character in Huffman code");
+        // }
 
         // Check if index is valid for this node's children
-        if (index < 0 || index >= currentNode->children.size()) {
-            throw std::runtime_error("Invalid Huffman code index");
-        }
+        // if (index < 0 || index >= currentNode->children.size()) {
+        //     throw std::runtime_error("Invalid Huffman code index");
+        // }
 
         // Move to the child node indicated by the digit
         currentNode = currentNode->children.get(index);
@@ -205,9 +206,10 @@ std::string HuffmanTree<treeOrder>::decode(const std::string &huffmanCode) {
         // If we've reached a leaf node (no children), add its symbol to the result
         if (currentNode->children.size() == 0) {
             // Skip dummy nodes (with symbol '\0')
-            if (currentNode->symbol != '\0') {
-                result << currentNode->symbol;
-            }
+            // if (currentNode->symbol != '\0') {
+            //     result << currentNode->symbol;
+            // }
+            result << currentNode->symbol;
             // Reset to root for the next symbol
             currentNode = root;
         }
