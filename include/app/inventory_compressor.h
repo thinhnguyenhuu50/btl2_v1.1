@@ -244,7 +244,8 @@ template <int treeOrder>
 void InventoryCompressor<treeOrder>::buildHuffman() {
     // TODO
     // Create a frequency table for all characters in product strings
-    xMap<char, int> freqTable([](char &key, int tableSize) { return (int)key % tableSize; });
+    // Create an array of 256 elements to store frequency counts for all ASCII characters
+    int freqArray[256] = {0};
 
     // Get all products from the inventory manager
     List2D<InventoryAttribute> products = invManager->getAttributesMatrix();
@@ -257,19 +258,19 @@ void InventoryCompressor<treeOrder>::buildHuffman() {
 
         // Count frequency of each character
         for (char ch : productStr) {
-            if (freqTable.containsKey(ch)) {
-                ++freqTable.get(ch);
-            } else {
-                freqTable.put(ch, 1);
-            }
+            // Increment the count for this character's ASCII value
+            freqArray[(unsigned char)ch]++;
         }
     }
 
     // Prepare data for Huffman tree construction
     XArrayList<pair<char, int>> symbolsFreqs;
-    DLinkedList<char> keys = freqTable.keys();
-    for (char key : keys) {
-        symbolsFreqs.add({key, freqTable.get(key)});
+    
+    // Add characters with non-zero frequencies to symbolsFreqs in ASCII order
+    for (int i = 0; i < 256; ++i) {
+        if (freqArray[i] > 0) {
+            symbolsFreqs.add({(char)i, freqArray[i]});
+        }
     }
 
     // (b) Build the Huffman tree and generate the codes
