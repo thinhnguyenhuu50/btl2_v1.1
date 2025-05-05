@@ -341,9 +341,9 @@ std::string InventoryCompressor<treeOrder>::decodeHuffman(const std::string &huf
     std::string decodedString = tree->decode(huffmanCode);
     
     // (b) Parse the decoded string to extract product name and attributes
-    while (attributesOutput.size() > 0) {
-        attributesOutput.removeAt(attributesOutput.size() - 1);
-    }
+    // while (attributesOutput.size() > 0) {
+    //     attributesOutput.removeAt(attributesOutput.size() - 1);
+    // }
     nameOutput = "";
 
     // Find the position of the first colon which separates name from attributes
