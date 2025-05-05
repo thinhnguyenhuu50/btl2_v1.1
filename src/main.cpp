@@ -1,9 +1,9 @@
 #include "test/tc_compressor.h"
 #include "test/tc_heap.h"
 #include "test/tc_xmap.h"
-#include "../test/HeapTest.h"
-#include "../test/xMapTest.h"
-#include "../test/test_inventory_compressor.h"
+// #include "../test/HeapTest.h"
+// #include "../test/xMapTest.h"
+// #include "../test/test_inventory_compressor.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -19,16 +19,16 @@ void (*func_ptr[17])() = {
     // hashDemo5,
     // hashDemo6,
     // hashDemo7,
-    // heapDemo1,
-    // heapDemo2,
-    // heapDemo3,
-    tc_huffman1001,
-    tc_huffman1002,
-    tc_huffman1003,
-    tc_huffman1004,
-    tc_huffman1005,
-    tc_compressor1001,
-    tc_compressor1002
+    heapDemo1,
+    heapDemo2,
+    heapDemo3,
+    // tc_huffman1001,
+    // tc_huffman1002,
+    // tc_huffman1003,
+    // tc_huffman1004,
+    // tc_huffman1005,
+    // tc_compressor1001,
+    // tc_compressor1002
 };
 
 void run(int func_idx)
@@ -38,7 +38,7 @@ void run(int func_idx)
 
 int main(int argc, char **argv) {
 
-    tc_compressor1002();
+    heapDemo1();
     // for (int i = 0; i < 7; ++i) {
     //     cout << "========================" << endl;
     //     cout << "Running test " << i << "..." << endl;

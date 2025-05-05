@@ -270,8 +270,16 @@ int Heap<T>::size() {
 
 template <class T>
 void Heap<T>::heapify(T array[], int size) {
-    for (int idx = 0; idx < size; ++idx)
-        push(array[idx]);
+    // for (int idx = 0; idx < size; ++idx)
+    //     push(array[idx]);
+    for (int i = 0; i < size; ++i) {
+        ensureCapacity(count + 1);
+        elements[count] = array[i];
+        ++count;
+    }
+    for (int i = (count - 1) / 2; i >= 0; --i) {
+        reheapDown(i);
+    }
 }
 
 template <class T>
