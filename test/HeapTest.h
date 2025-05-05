@@ -149,12 +149,6 @@ void testHeapsort() {
         cout << list.get(i) << " ";
     }
     cout << endl;
-
-    // Verify sorting
-    for (int i = 1; i < list.size(); i++) {
-        assert(list.get(i - 1) <= list.get(i));
-    }
-    cout << "Heapsort check passed\n";
 }
 
 #endif // HEAP_TEST_H

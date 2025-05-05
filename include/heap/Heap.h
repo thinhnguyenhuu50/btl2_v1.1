@@ -270,8 +270,6 @@ int Heap<T>::size() {
 
 template <class T>
 void Heap<T>::heapify(T array[], int size) {
-    // for (int idx = 0; idx < size; ++idx)
-    //     push(array[idx]);
     for (int i = 0; i < size; ++i) {
         ensureCapacity(count + 1);
         elements[count] = array[i];
@@ -427,16 +425,24 @@ void Heap<T>::heapsort(XArrayList<T> &arrayList) {
     }
 
     // Add items from arrayList to heap
-    for (int i = 0; i < arrayList.size(); i++) {
-        push(arrayList.get(i));
-        // cout << toString() << endl;
+    for (int i = 0; i < arrayList.size(); ++i) {
+        ensureCapacity(count + 1);
+        elements[i] = arrayList.get(i);
+        ++count;
+    }
+    for (int i = (count - 1) / 2; i >= 0; --i) {
+        reheapDown(i);
     }
 
     // Extract sorted elements back to arrayList
-    arrayList.clear();
-    while (!empty()) {
-        arrayList.add(pop());
-        // cout << toString() << endl;
+    // arrayList.clear();
+    // while (!empty()) {
+    //     arrayList.add(pop());
+    //     // cout << toString() << endl;
+    //     println();
+    // }
+    for (int i = count - 1; i >= 0; --i) {
+        arrayList.get(i) = pop();
         println();
     }
 }
