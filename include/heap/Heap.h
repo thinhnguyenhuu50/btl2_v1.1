@@ -433,14 +433,8 @@ void Heap<T>::heapsort(XArrayList<T> &arrayList) {
     for (int i = count / 2 - 1; i >= 0; --i) {
         reheapDown(i);
     }
-
+    println();
     // Extract sorted elements back to arrayList
-    // arrayList.clear();
-    // while (!empty()) {
-    //     arrayList.add(pop());
-    //     // cout << toString() << endl;
-    //     println();
-    // }
     for (int i = count - 1; i >= 0; --i) {
         arrayList.get(i) = pop();
         println();

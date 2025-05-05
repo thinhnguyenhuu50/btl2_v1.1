@@ -90,7 +90,7 @@ void testPointerHeap() {
     cout << "\n=== Testing Pointer Heap ===\n";
 
     // Create a heap of Point pointers
-    Heap<Point*> pointHeap(maxHeapComparator, &Heap<Point*>::free);
+    Heap<Point *> pointHeap(maxHeapComparator, &Heap<Point *>::free);
 
     // Test push with pointers
     pointHeap.push(new Point(1, 2));
@@ -102,7 +102,7 @@ void testPointerHeap() {
     cout << "Push with pointers check passed\n";
 
     // Test peek with pointers
-    Point* top = pointHeap.peek();
+    Point *top = pointHeap.peek();
     assert(top->getX() == 7 && top->getY() == 8);
     cout << "Peek with pointers check passed\n";
 
@@ -116,7 +116,7 @@ void testPointerHeap() {
     cout << "Contains with pointers check passed\n";
 
     // Test pop with pointers
-    Point* popped = pointHeap.pop();
+    Point *popped = pointHeap.pop();
     assert(popped->getX() == 7 && popped->getY() == 8);
     delete popped; // Manually delete since we removed it from heap
     assert(pointHeap.size() == 3);
@@ -129,12 +129,12 @@ void testHeapsort() {
     cout << "\n=== Testing Heapsort ===\n";
 
     XArrayList<int> list;
-    list.add(30);
-    list.add(10);
-    list.add(20);
-    list.add(5);
-    list.add(15);
 
+    int arr[] = {50, 20, 15, 10, 8, 6, 7, 23};
+    int arrSize = sizeof(arr) / sizeof(arr[0]);
+    for (int i = 0; i < arrSize; i++) {
+        list.add(arr[i]);
+    }
 
     cout << "Original list: ";
     for (int i = 0; i < list.size(); i++) {
