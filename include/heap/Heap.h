@@ -275,7 +275,7 @@ void Heap<T>::heapify(T array[], int size) {
         elements[count] = array[i];
         ++count;
     }
-    for (int i = (count - 1) / 2; i >= 0; --i) {
+    for (int i = count / 2 - 1; i >= 0; --i) {
         reheapDown(i);
     }
 }
@@ -430,7 +430,7 @@ void Heap<T>::heapsort(XArrayList<T> &arrayList) {
         elements[i] = arrayList.get(i);
         ++count;
     }
-    for (int i = (count - 1) / 2; i >= 0; --i) {
+    for (int i = count / 2 - 1; i >= 0; --i) {
         reheapDown(i);
     }
 
