@@ -130,7 +130,7 @@ void testHeapsort() {
 
     XArrayList<int> list;
 
-    int arr[] = {50, 20, 15, 10, 8, 6, 7, 23};
+    int arr[] = {3, 1, 4, 1, 5, 9, 2, 6, 5};
     int arrSize = sizeof(arr) / sizeof(arr[0]);
     for (int i = 0; i < arrSize; i++) {
         list.add(arr[i]);
@@ -142,7 +142,7 @@ void testHeapsort() {
     }
     cout << endl;
 
-    Heap<int> heap;
+    Heap<int> heap(maxHeapComparator);
     heap.heapsort(list);
 
     cout << "Sorted list: ";

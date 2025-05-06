@@ -433,11 +433,11 @@ void Heap<T>::heapsort(XArrayList<T> &arrayList) {
     for (int i = count / 2 - 1; i >= 0; --i) {
         reheapDown(i);
     }
-    println();
+    
     // Extract sorted elements back to arrayList
-    for (int i = count - 1; i >= 0; --i) {
+    for (int i = 0; i < arrayList.size(); ++i) {
         arrayList.get(i) = pop();
-        println();
+        arrayList.println();
     }
 }
 
