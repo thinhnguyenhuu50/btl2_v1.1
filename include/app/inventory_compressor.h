@@ -166,7 +166,7 @@ void HuffmanTree<treeOrder>::generateCodes(xMap<char, std::string> &table) {
             table.put(node->symbol, code);
         } else {
             for (int i = 0; i < node->children.size(); ++i) {
-                ref(ref, node->children.get(i), code + std::to_string(i));
+                ref(ref, node->children.get(i), code + ((i < 10) ? std::to_string(i) : std::string(1, 'a' + i - 10)));
             }
         }
     };
