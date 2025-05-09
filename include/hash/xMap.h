@@ -211,6 +211,8 @@ xMap<K, V>::xMap(
 template <class K, class V>
 xMap<K, V>::xMap(const xMap<K, V> &map) {
     // YOUR CODE IS HERE
+    this->deleteKeys = 0;
+    this->deleteValues = 0;
     copyMapFrom(map);
 }
 
@@ -559,8 +561,6 @@ void xMap<K, V>::copyMapFrom(const xMap<K, V> &map) {
     this->loadFactor = map.loadFactor;
     this->valueEqual = map.valueEqual;
     this->keyEqual = map.keyEqual;
-    this->deleteKeys = map.deleteKeys;
-    this->deleteValues = map.deleteValues;
     // copy entries
     for (int idx = 0; idx < map.capacity; idx++) {
         DLinkedList<Entry *> &list = map.table[idx];
