@@ -247,6 +247,8 @@ void Heap<T>::remove(T item, void (*removeItemData)(T)) {
         return;
 
     // CASE 2: found at foundIdx
+    if (removeItemData)
+        removeItemData(elements[foundIdx]); // free item's memory
     elements[foundIdx] = elements[count - 1];
     --count;
     if (aLTb(elements[foundIdx], elements[(foundIdx - 1) / 2]))
@@ -254,8 +256,6 @@ void Heap<T>::remove(T item, void (*removeItemData)(T)) {
     else
         reheapDown(foundIdx);
 
-    if (removeItemData)
-        removeItemData(item); // free item's memory
 }
 
 template <class T>
@@ -270,6 +270,7 @@ int Heap<T>::size() {
 
 template <class T>
 void Heap<T>::heapify(T array[], int size) {
+    clear(); // clear existing heap data
     for (int i = 0; i < size; ++i) {
         ensureCapacity(count + 1);
         elements[count] = array[i];
