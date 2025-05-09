@@ -378,7 +378,7 @@ void xMap<K, V>::clear() {
 template <class K, class V>
 DLinkedList<K> xMap<K, V>::keys() {
     // YOUR CODE IS HERE
-    DLinkedList<K> result;
+    DLinkedList<K> result(0, keyEqual);
     for (int idx = 0; idx < capacity; idx++) {
         DLinkedList<Entry *> &list = table[idx];
         for (Entry *entry : list) {
@@ -391,7 +391,7 @@ DLinkedList<K> xMap<K, V>::keys() {
 template <class K, class V>
 DLinkedList<V> xMap<K, V>::values() {
     // YOUR CODE IS HERE
-    DLinkedList<V> result;
+    DLinkedList<V> result(0, valueEqual);
     for (int idx = 0; idx < capacity; idx++) {
         DLinkedList<Entry *> &list = table[idx];
         for (Entry *entry : list) {

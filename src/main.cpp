@@ -496,7 +496,7 @@ void hash032() {
     try {
         Object key("n,");
         auto keys = map.keys();
-        cout << !keys.contains(&key);
+        cout << keys.contains(&key);
     }
     catch (KeyNotFound& e) {
         cout << e.what() << endl;
@@ -524,7 +524,7 @@ void hash033() {
     try {
         Object value("n,");
         auto values = map.values();
-        cout << !values.contains(&value);
+        cout << values.contains(&value);
     }
     catch (KeyNotFound& e) {
         cout << e.what() << endl;
@@ -844,14 +844,12 @@ int main(int argc, char **argv)
     if (argc == 1) {
         int result = 0;
         int n = sizeof(func_ptr) / sizeof(func_ptr[0]);
-        for (int i = 0; i != n; ++i) {
-            result += run(i);
-        }
+        for (int i = 0; i != n; ++i) result += run(i);
         cout << "Result: " << result << " / " << n << endl;
     }
     else {
         run(stoi(argv[1]));
     }
-    // hash034();
+    // hash032();
     return 0;
 }
